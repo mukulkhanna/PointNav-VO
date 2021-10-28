@@ -53,6 +53,12 @@ if __name__ == "__main__":
         help="run type of the experiment (train or eval)",
     )
     parser.add_argument(
+        "--cfg-file",
+        type=str,
+        required=True,
+        help="Config file for training VO model",
+    )
+    parser.add_argument(
         "--repo-path", type=str, required=True, help="path to PointNav repo",
     )
     parser.add_argument(
@@ -72,7 +78,8 @@ if __name__ == "__main__":
     if args.task_type == "rl":
         cur_config_f = os.path.join(args.repo_path, "configs/rl/ddppo_pointnav.yaml")
     elif args.task_type == "vo":
-        cur_config_f = os.path.join(args.repo_path, "configs/vo/vo_pointnav.yaml")
+        cur_config_f = os.path.join(args.repo_path, args.cfg_file)
+        # cur_config_f = os.path.join(args.repo_path, "configs/vo/vo_pointnav.yaml")
     else:
         pass
 
