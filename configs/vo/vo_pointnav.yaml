@@ -78,9 +78,9 @@ VO:
     # set pretrained to True if you want to fine-tune some checkpoints
     pretrained: False
     pretrained_ckpt: {
-      "forward": "ckpt_forward.pth",
-      "left": "act_left.pth",
-      "right": "act_right.pth",
+      "forward": "pretrained_ckpts/vo/act_forward.pth",
+      "left": "pretrained_ckpts/vo/act_left_right_inv_joint.pth",
+      "right": "pretrained_ckpts/vo/act_left_right_inv_joint.pth",
     }
 
   REGRESSION:
