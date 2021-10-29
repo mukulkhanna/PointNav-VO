@@ -167,9 +167,10 @@ def run_exp(
                 else:
                     act_str = config.VO.TRAIN.action_type
                 log_folder_name = (
-                    "{}-noise_{}-{}-{}-dd_{}_{}-m_cen_{}-act_{}-model_{}-{}-geo_{}_inv_w_{}-"
+                    "{}-{}_noise_{}-{}-{}-dd_{}_{}-m_cen_{}-act_{}-model_{}-{}-geo_{}_inv_w_{}-"
                     "l_mult_fix_{}-{}-dpout_{}-e_{}-b_{}-lr_{}-w_de_{}-{}".format(
                         task_type,
+                        config.VO.VIS_SIZE_W,
                         noise,
                         run_type,
                         "_".join(
