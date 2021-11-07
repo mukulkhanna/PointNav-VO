@@ -4,27 +4,25 @@
 # This source code is licensed under the MIT license found in the
 # LICENSE file in the root directory of this source tree.
 
+import copy
+import glob
 import os
 import time
-import joblib
-import tqdm
-import glob
-import imageio
-import copy
-import numpy as np
-from typing import ClassVar, Dict, List
 from collections import defaultdict
-
-import torch
+from typing import ClassVar, Dict, List
 
 import habitat
+import imageio
+import joblib
+import numpy as np
+import torch
+import tqdm
 from habitat import Config, logger
 from habitat.utils.visualizations import maps
 
 from pointnav_vo.utils.tensorboard_utils import TensorboardWriter
 from pointnav_vo.vis.utils import resize_top_down_map
 from pointnav_vo.vo.common.common_vars import *
-
 
 EPSILON = 1e-8
 
@@ -65,6 +63,12 @@ class BaseRLTrainer(BaseTrainer):
         self.config = config
         self._flush_secs = 30
 
+        self.device = (
+            torch.device("cuda", self.config.TORCH_GPU_ID)
+            if torch.cuda.is_available()
+            else torch.device("cpu")
+        )
+
     @property
     def flush_secs(self):
         return self._flush_secs
@@ -83,11 +87,6 @@ class BaseRLTrainer(BaseTrainer):
         Returns:
             None
         """
-        self.device = (
-            torch.device("cuda", self.config.TORCH_GPU_ID)
-            if torch.cuda.is_available()
-            else torch.device("cpu")
-        )
 
         if "tensorboard" in self.config.VIDEO_OPTION:
             assert (
@@ -274,10 +273,12 @@ class BaseRLTrainer(BaseTrainer):
                                         axis=1,
                                     )
                                     second_row = np.concatenate(
-                                        (cur_top_down_map, cur_rgb, cur_depth), axis=1,
+                                        (cur_top_down_map, cur_rgb, cur_depth),
+                                        axis=1,
                                     )
                                     out_img = np.concatenate(
-                                        (first_row, second_row), axis=0,
+                                        (first_row, second_row),
+                                        axis=0,
                                     )
 
                                     tmp_k = f"{d_type}_{compare_type}"
